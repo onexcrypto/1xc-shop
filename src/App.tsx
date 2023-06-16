@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{useEffect, useMemo} from 'react';
 import './App.css';
+import { createPaymentButton } from '1xc-payment-package';
 
 function App() {
+
+  const handlePaymentCallback = (error: unknown, transactionId: unknown) => {
+    if (error) {
+      console.error('Erreur de paiement :', error);
+    } else {
+      console.log('Paiement réussi ! Transaction ID :', transactionId);
+    }
+  };
+
+  const options = useMemo(() => ({
+    text: '1xc Pay',
+      targetSelector: '#payment-button',
+      amount: Number(100.00),
+      currency: 'EUR',
+      callback: handlePaymentCallback,
+  }), []);
+
+  useEffect(() => {
+    createPaymentButton(options);
+  }, [options])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div id="payment-button"></div>
     </div>
   );
 }
