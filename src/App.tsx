@@ -1,33 +1,34 @@
-import React,{useEffect, useMemo} from 'react';
-import './App.css';
-import { createPaymentButton } from '1xc-payment-package';
+import { useMemo } from "react";
+import "./App.css";
+import { Onexc } from "onexcpay-js";
 
 function App() {
-
   const handlePaymentCallback = (error: unknown, transactionId: unknown) => {
     if (error) {
-      console.error('Erreur de paiement :', error);
+      console.error("Erreur de paiement :", error);
     } else {
-      console.log('Paiement réussi ! Transaction ID :', transactionId);
+      console.log("Paiement réussi ! Transaction ID :", transactionId);
     }
   };
 
-  const options = useMemo(() => ({
-    text: '1xc Pay',
-      targetSelector: '#payment-button',
-      amount: Number(100.00),
-      currency: 'EUR',
+  const options = useMemo(
+    () => ({
+      text: "1xc Pay",
+      targetSelector: "#payment-button",
+      amount: Number(100.0),
+      currency: "EUR",
       callback: handlePaymentCallback,
-  }), []);
-
-  useEffect(() => {
-    createPaymentButton(options);
-  }, [options])
-  return (
-    <div className="App">
-      <div id="payment-button"></div>
-    </div>
+    }),
+    []
   );
+
+  return <div className="App">
+    <button onClick={() => Onexc.gateway.launch({
+      mode: "test",
+      apiKey: "0xxcccccc",
+      intentId: "hello world"
+    })}>Pay now</button>
+  </div>;
 }
 
 export default App;
