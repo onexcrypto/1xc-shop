@@ -22,13 +22,21 @@ function App() {
     []
   );
 
-  return <div className="App">
-    <button onClick={() => Onexc.gateway.launch({
-      mode: "test",
-      apiKey: "0xxcccccc",
-      intentId: "hello world"
-    })}>Pay now</button>
-  </div>;
+  return (
+    <div className="App">
+      <button
+        onClick={() =>
+          Onexc.gateway.launch({
+            mode: "test",
+            apiKey: "0xxcccccc",
+            intentId: "hello world",
+          })
+        }
+      >
+        Pay now
+      </button>
+    </div>
+  );
 }
 
 export default App;
